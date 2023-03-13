@@ -1,0 +1,20 @@
+{
+  "name": "task-quest-backend",
+  "version": "1.0.0",
+  "description": "App for Parents and Children to track tasks and win rewards",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sylvialchen/task-quest-backend.git"
+  },
+  "author": "GA Team 1 Spring Hackathon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sylvialchen/task-quest-backend/issues"
+  },
+  "homepage": "https://github.com/sylvialchen/task-quest-backend#readme"
+}
