@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/sylvialchen/task-quest-backend/issues"
   },
-  "homepage": "https://github.com/sylvialchen/task-quest-backend#readme"
+  "homepage": "https://github.com/sylvialchen/task-quest-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "method-override": "^3.0.0",
+    "mongoose": "^7.0.1"
+  }
 }
