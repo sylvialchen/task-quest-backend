@@ -10,6 +10,16 @@ const dataController = {
             res.status(400).json(error)
         }
     },
+    async create (req, res, next) {
+        try {
+            const task = await Task.create(req.body);
+            console.log(task);
+            res.locals.task = task;
+            next();
+        } catch (error) {
+            
+        }
+    },
     async indexComplete (req, res, next) {
         try {
             const tasks = await Task.find({ completed: true });
@@ -45,8 +55,16 @@ const dataController = {
         } catch (error) {
             res.status(400).json(error)       
         }
-    }    
-
+    },
+    async destroy (req, res, next) {
+        try {
+            const task = await Task.findByIdAndDelete(req.params.id);
+            res.locals.data.task = task;
+            next();
+        } catch (error) {
+            res.status(400).json(error)
+        }
+    }
 }
 
 const apiController = {
