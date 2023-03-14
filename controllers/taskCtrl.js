@@ -7,14 +7,8 @@ const dataController = {
   async index(req, res, next) {
     try {
       const tasks = await Task.find({});
-<<<<<<< Updated upstream
       console.log(tasks)
       res.status(200).json(tasks)
-=======
-      console.log(tasks);
-      res.locals.data.tasks = tasks;
-      next();
->>>>>>> Stashed changes
     } catch (error) {
       res.status(400).json(error);
     }
@@ -29,13 +23,8 @@ const dataController = {
   async indexComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: true });
-<<<<<<< Updated upstream
       console.log(tasks)
       res.status(200).json(tasks)
-=======
-      console.log(tasks);
-      res.locals.data.tasks = tasks;
->>>>>>> Stashed changes
       next();
     } catch (error) {
       res.status(400).json(error);
@@ -44,13 +33,8 @@ const dataController = {
   async indexNotComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: false });
-<<<<<<< Updated upstream
       console.log(tasks)
       res.status(200).json(tasks)
-=======
-      console.log(tasks);
-      res.locals.data.tasks = tasks;
->>>>>>> Stashed changes
       next();
     } catch (error) {
       res.status(400).json(error);
@@ -90,22 +74,16 @@ const dataController = {
       res.status(400).json(error)
     }
   },
-  async completeTask(req, res) {
+  async removeTaskFromChild(req, res) {
     try {
-      const completedTask = await Task.findByIdAndUpdate(req.params.taskId, { $set: { "completed": true } })
-      const points = completedTask.taskPoints
-      console.log(points)
-      const child = await Child.findByIdAndUpdate(req.params.childId, { "totalPoints": { $add: [totalPoints, points]}})
-      console.log(child.totalPoints)
-      res.status(200).json(completedTask)
+      
     } catch (error) {
-      res.status(400).json(error)
+      
     }
   }
 };
 
 const apiController = {
-<<<<<<< Updated upstream
     index (req, res, next) {
         // res.json(res.locals.data.tasks);
     },
@@ -126,14 +104,6 @@ const apiController = {
   //     requestAt: new Date().toLocaleString(),
   //   });
   // }
-=======
-  index(req, res, next) {
-    res.json(res.locals.data.tasks);
-  },
-  show(req, res, next) {
-    res.json(res.locals.data.task);
-  },
->>>>>>> Stashed changes
 };
 
 const removeTaskFromChild = async (req, res) => {
