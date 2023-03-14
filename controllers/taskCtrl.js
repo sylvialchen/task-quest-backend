@@ -6,6 +6,7 @@ const dataController = {
   async index(req, res, next) {
     try {
       const tasks = await Task.find({});
+      console.log(tasks)
       res.locals.data.tasks = tasks;
       next();
     } catch (error) {
@@ -23,6 +24,7 @@ const dataController = {
   async indexComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: true });
+      console.log(tasks)
       res.locals.data.tasks = tasks;
       next();
     } catch (error) {
@@ -32,6 +34,7 @@ const dataController = {
   async indexNotComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: false });
+      console.log(tasks)
       res.locals.data.tasks = tasks;
       next();
     } catch (error) {
