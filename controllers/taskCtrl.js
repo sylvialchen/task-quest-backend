@@ -80,7 +80,7 @@ const apiController = {
         res.json(res.locals.data.task);
     }
 
-    await currentChild.save();
+/*     await currentChild.save();
     res.status(200).send({
       data: currentChild,
       message: "Expense has been added to the Month",
@@ -91,7 +91,7 @@ const apiController = {
       message: `${err.message}`,
       requestAt: new Date().toLocaleString(),
     });
-  }
+  } */
 };
 
 const removeTaskFromChild = async (req, res) => {
@@ -130,7 +130,7 @@ const removeTaskFromChild = async (req, res) => {
 };
 
 const taskChild = {
-  addTaskToChild,
+  /* addTaskToChild, */
   removeTaskFromChild,
 };
 
