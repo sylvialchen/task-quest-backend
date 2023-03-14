@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/caregiver", routes.caregiverRoutes);
+app.use('/child', routes.childRoutes)
 
 // LISTENER
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));

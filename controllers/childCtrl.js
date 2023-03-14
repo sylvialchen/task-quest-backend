@@ -8,15 +8,15 @@ const { Child } = require(`../models`)
 const login = async (req, res) => {
     try {
       // get child input
-      const { email, password } = req.body;
+      const { username, password } = req.body;
   
       // validate child input
-      if (!(email && password)) {
+      if (!(username && password)) {
         res.status(400).send("No input was entered");
       }
   
       // validate if child exist in database
-      const child = await Child.findOne({ email: email });
+      const child = await Child.findOne({ username: username });
       if (!child)
         return res.status(400).json({ msg: "child account does not exist." });
   
