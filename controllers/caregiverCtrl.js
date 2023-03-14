@@ -1,6 +1,8 @@
 /* Imports */
 const CaregiverModel = require("../models/CaregiverModel");
 const ChildModel = require("../models/ChildModel");
+const RewardModel = require("../models/RewardModel");
+const TaskModel = require("../models/TaskModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -97,6 +99,25 @@ const findChildren = async(req, res) => {
       return next(err)
   }
 }
+
+const findRewards = async(req, res) => {
+  try {
+      res.json(await RewardModel.find({"caregiverId": req.params.caregiverId}))
+  } catch (err) {
+      res.status(400).json({error: "error"})
+      return next(err)
+  }
+}
+
+const findTasks = async(req, res) => {
+  try {
+      res.json(await TaskModel.find({"caregiverId": req.params.caregiverId}))
+  } catch (err) {
+      res.status(400).json({error: "error"})
+      return next(err)
+  }
+}
+
 /* End of Controller Work */
 
 /* Export Out */
@@ -105,6 +126,8 @@ const caregiverCtrl = {
   register,
   login,
   findChildren,
+  findRewards,
+  findTasks
 };
 
 module.exports = caregiverCtrl;
