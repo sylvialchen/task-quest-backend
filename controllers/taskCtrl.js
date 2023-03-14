@@ -84,12 +84,12 @@ const dataController = {
 };
 
 const apiController = {
-  index(req, res, next) {
-    res.json(res.locals.data.tasks);
-  },
-  show(req, res, next) {
-    res.json(res.locals.data.task);
-  }
+    index (req, res, next) {
+        // res.json(res.locals.data.tasks);
+    },
+    show (req, res, next) {
+        // res.json(res.locals.data.task);
+    }
 
 
   //   try currentChild.save();

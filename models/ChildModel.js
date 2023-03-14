@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const ChildSchema = new mongoose.Schema({
     caregiverId: {
-        type: [ObjectId],
+        type: ObjectId,
     },
     childName: {
         type: String,
