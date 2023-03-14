@@ -4,4 +4,4 @@ module.exports = {
     Reward: require('./Reward')
 };
 
-mongoose.connect( process.env.MONGODB_URI);
+mongoose.connect( process.env.MONGODB_URL);

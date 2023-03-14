@@ -7,7 +7,7 @@ const RewardSchema = new mongoose.Schema({
     rewardPoints: {type: Number, required: true},
     active: {type: Boolean},
     cashedIn: {type: Number, required: true}
-})
+},{timestamps: true})
 
 const Reward = mongoose.model("Reward", RewardSchema)
 
