@@ -78,19 +78,44 @@ const dataController = {
       res.status(400).json(error);
     }
   },
-  async removeTaskFromChild(req, res) {
+  async completeTask(req, res) {
     try {
-    } catch (error) {}
+      const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
+        $set: { completed: true },
+      });
+      const points = completedTask.taskPoints;
+      console.log(points);
+      const child = await Child.findByIdAndUpdate(req.params.childId, {
+        totalPoints: { $add: [totalPoints, points] },
+      });
+      console.log(child.totalPoints);
+      res.status(200).json(completedTask);
+    } catch (error) {
+      res.status(400).json(error);
+    }
   },
 };
 
 const apiController = {
   index(req, res, next) {
-    res.json(res.locals.data.tasks);
+    // res.json(res.locals.data.tasks);
   },
   show(req, res, next) {
-    res.json(res.locals.data.task);
+    // res.json(res.locals.data.task);
   },
+
+  //   try currentChild.save();
+  //   res.status(200).send({
+  //     data: currentChild,
+  //     message: "Expense has been added to the Month",
+  //   });
+  // } catch (error) {
+  //   return res.status(500).json({
+  //     status: 500,
+  //     message: `${err.message}`,
+  //     requestAt: new Date().toLocaleString(),
+  //   });
+  // }
 };
 
 const removeTaskFromChild = async (req, res) => {
