@@ -1,5 +1,5 @@
 /* Imports */
-const CaregiverModel = require("../models/caregiverModel");
+const CaregiverModel = require("../models/CaregiverModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
