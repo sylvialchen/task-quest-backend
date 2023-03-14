@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const CaregiverSchema = new mongoose.Schema({
   caregiverName: {
     type: String,
-    required: [true, "First Name is required"],
+    required: [true, "Name is required"],
   },
   email: {
     type: String,
