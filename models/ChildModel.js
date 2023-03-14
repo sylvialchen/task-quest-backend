@@ -34,3 +34,5 @@ const ChildSchema = new mongoose.Schema({
 const Children = mongoose.model("Children", ChildSchema);
 
 module.exports = Children;
+
+module.exports = Children;
