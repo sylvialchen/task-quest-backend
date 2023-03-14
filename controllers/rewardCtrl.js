@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const RewardModel = require('../models/RewardModel')
+const ChildModel = require('../models/ChildModel')
 // const verifyToken = require("../middleware/auth.js");
 
 
@@ -44,11 +45,23 @@ const createReward = async(req, res) => {
         return next(err)
     }
 }
+const assignToChild = async(req, res) => {
+    try {
+        const foundChild = await ChildModel.findByIdAndUpdate(req.params.childId, { $push: { "rewardsArray": req.params.rewardId } }, { new: true })
+        res.send(foundChild)
+    } catch (err) {
+        console.log(err)
+		res.status(400).json({error: "error"})
+        return next(err)
+    }
+
+}
 
 
 const rewardCtrl = {
     showAllRewards,
     createReward,
+    assignToChild,
 };
 
 

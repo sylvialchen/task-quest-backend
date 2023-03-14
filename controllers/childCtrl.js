@@ -22,7 +22,7 @@ const login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: "invalid password" });
 
     const payload = {
-      email: child.email,
+      username: child.username,
       id: child._id,
     };
     const token = jwt.sign(
@@ -48,19 +48,19 @@ const login = async (req, res) => {
 const createChild = async (req, res) => {
     try {
         // get child data
-        const { firstName, lastName, email, password } = req.body;
+        const { caregiverId, childName, username, password } = req.body;
 
         // validate
-        if (!(firstName && lastName && email && password)) {
+        if (!(caregiverId, childName && username && password)) {
             res.status(400).send("All inputs are required!");
         }
 
         // check if child already exist
-        const existingChild = await ChildModel.findOne({ email });
+        const existingChild = await ChildModel.findOne({ username });
         if (existingChild) {
             return res
                 .status(409)
-                .send("Email account already exist. Try a new email account!");
+                .send("username account already exist. Try a new username account!");
         }
 
         // encrypt user password
@@ -68,9 +68,9 @@ const createChild = async (req, res) => {
 
         // create user in database
         const child = await ChildModel.create({
-            firstName,
-            lastName,
-            email: email.toLowerCase(),
+            caregiverId,
+            childName,
+            username: username.toLowerCase(),
             password: encryptedPassword,
         });
 
@@ -84,9 +84,19 @@ const createChild = async (req, res) => {
     }
 };
 
+// const findCompletedTasks = async(req, res) => {
+//   try {
+//       res.json(await TaskModel.find({"caregiverId": req.params.caregiverId}))
+//   } catch (err) {
+//       res.status(400).json({error: "error"})
+//       return next(err)
+//   }
+// }
+
 const childCtrl = {
     login,
     createChild,
+    // findCompletedTasks
 };
 
 module.exports = childCtrl;
