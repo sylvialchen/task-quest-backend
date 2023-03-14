@@ -83,13 +83,18 @@ const dataController = {
       const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
         $set: { completed: true },
       });
+
       const points = completedTask.taskPoints;
       console.log(points);
-      const child = await Child.findByIdAndUpdate(req.params.childId, {
-        totalPoints: { $add: [totalPoints, points] },
-      });
-      console.log(child.totalPoints);
-      res.status(200).json(completedTask);
+
+      const child = await Child.findByIdAndUpdate(
+        { _id: req.params.childId },
+        {
+          $inc: { totalPoints: points },
+        }
+      );
+
+      res.status(200).json(child);
     } catch (error) {
       res.status(400).json(error);
     }
@@ -103,59 +108,6 @@ const apiController = {
   show(req, res, next) {
     // res.json(res.locals.data.task);
   },
-
-  //   try currentChild.save();
-  //   res.status(200).send({
-  //     data: currentChild,
-  //     message: "Expense has been added to the Month",
-  //   });
-  // } catch (error) {
-  //   return res.status(500).json({
-  //     status: 500,
-  //     message: `${err.message}`,
-  //     requestAt: new Date().toLocaleString(),
-  //   });
-  // }
-};
-
-const removeTaskFromChild = async (req, res) => {
-  try {
-    // get the req body
-    const { taskId, childId } = req.body;
-
-    const caregiverId = req.caregiver._id;
-    // validate input
-    if (!(taskId && childId)) {
-      throw "inputError";
-    }
-
-    // get ID for user and month
-    const currentCaregiver = await CaregiverModel.findById(caregiverId);
-    const currentChild = await Child.findById(childId);
-    const currentTask = await Task.findById(taskId);
-
-    //find the index of the expense to add
-    const index = currentChild.childId.indexOf(taskId);
-    //add expense to the month
-    currentChild.childId.splice(index, 1);
-
-    await currentChild.save();
-    res.status(200).send({
-      data: currentChild,
-      message: "Expense has been added to the Month",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 500,
-      message: `${err.message}`,
-      requestAt: new Date().toLocaleString(),
-    });
-  }
-};
-
-const taskChild = {
-  // addTaskToChild,
-  removeTaskFromChild,
 };
 
 module.exports = { dataController, apiController };

@@ -21,8 +21,8 @@ router.get(":/id", dataController.show);
 // Assing Task to Child
 router.post("/:taskId/:childId", dataController.assignToChild);
 // Remove Task for Child
-// router.put("/", dataController.create, apiController.removeChild); 
+// router.put("/", dataController.create, apiController.removeChild);
 // Complete Task
-router.put("/:taskId/complete", dataController.completeTask)
+router.put("/complete/:taskId/:childId", dataController.completeTask);
 
 module.exports = router;
