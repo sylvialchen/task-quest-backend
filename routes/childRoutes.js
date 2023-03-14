@@ -10,6 +10,7 @@ const controllers = require("../controllers/index.js");
 
 // login route
 router.post("/login", controllers.childCtrl.login);
+router.post("/create", controllers.childCtrl.createChild);
 
 /*  */
 
