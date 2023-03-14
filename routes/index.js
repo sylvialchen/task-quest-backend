@@ -1,11 +1,13 @@
 const caregiverRoutes = require("./caregiverRoutes");
 const childRoutes= require('./childRoutes')
-const tasks = require('./tasks');
+const tasksRoutes = require('./tasksRoutes');
+const rewardsRoutes = require('./rewardsRoutes')
 
 const router = {
   caregiverRoutes,
   childRoutes,
-  tasks
+  tasksRoutes,
+  rewardsRoutes
 };
 
 module.exports = router;
