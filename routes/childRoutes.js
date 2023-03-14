@@ -11,7 +11,7 @@ const controllers = require("../controllers/index.js");
 // login route
 router.post("/login", controllers.childCtrl.login);
 // create child
-router.post("/create", controllers.childCtrl.createChild);
+router.post("/create", verifyToken, controllers.childCtrl.createChild);
 // // show completed tasks
 // router.get("tasks/completed", controllers.childCtrl.findCompletedTasks)
 // // show pending tasks
