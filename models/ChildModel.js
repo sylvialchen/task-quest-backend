@@ -4,13 +4,14 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const ChildSchema = new mongoose.Schema({
     caregiverId: {
-        type: [ObjectId],
+        type: ObjectId,
+        required: true
     },
     childName: {
         type: String,
         required: [true, "First Name is required"],
     },
-    email: {
+    username: {
         type: String,
         required: true,
         unique: true,
@@ -31,6 +32,5 @@ const ChildSchema = new mongoose.Schema({
 });
 
 const Children = mongoose.model("Children", ChildSchema);
-
 
 module.exports = Children;

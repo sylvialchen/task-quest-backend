@@ -5,22 +5,24 @@ const router = express.Router();
 const { dataController, apiController } = require("../controllers/taskCtrl");
 
 // Index
-router.get("/", dataController.index, apiController.index);
+router.get("/", dataController.index);
 // Index not completed
-router.get("/incompleted", dataController.indexNotComplete, apiController.index);
+router.get("/incompleted", dataController.indexNotComplete);
 // Index completed
-router.get("/completed", dataController.indexComplete, apiController.index);
+router.get("/completed", dataController.indexNotComplete);
 // Delete
-router.delete("/:id", dataController.destroy, apiController.show);
+router.delete("/:id", dataController.destroy);
 // Update
-router.put("/:id", dataController.update, apiController.show);
+router.put("/:id", dataController.update);
 // Create
-router.post("/", dataController.create, apiController.show);
+router.post("/", dataController.create);
 // Show
-router.get(":/id", dataController.show, apiController.show);
-/* // Add Task for Child
-router.put("/", dataController.create, apiController.addChild);
+router.get(":/id", dataController.show);
+// Assing Task to Child
+router.post("/:taskId/:childId", dataController.assignToChild);
 // Remove Task for Child
-router.put("/", dataController.create, apiController.removeChild); */
+// router.put("/", dataController.create, apiController.removeChild); 
+// Complete Task
+router.put("/:taskId/complete", dataController.completeTask)
 
 module.exports = router;
