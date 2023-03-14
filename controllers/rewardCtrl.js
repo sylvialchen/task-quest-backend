@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const {Reward} = require('../models/index')
+const verifyToken = require("../middleware/auth.js");
+
 
 // SHOW ROUTE
-router.get("/", async (req, res, next) => {
+router.get("/", verifyToken, async (req, res, next) => {
 	try {
 		const allRewards = await Reward.find({})
 		res.status(200).json(allRewards)
@@ -12,7 +14,7 @@ router.get("/", async (req, res, next) => {
         return next(err)
 	}
 });
-router.post("/", async (req, res, next) =>  {
+router.post("/", verifyToken, async (req, res, next) =>  {
     try {
         const createReward = await Reward.create(req.body)
         res.status(201).json(createReward)
@@ -21,5 +23,10 @@ router.post("/", async (req, res, next) =>  {
         return next(err)
     }
 });
+
+
+
+
+
 
 module.exports = router
