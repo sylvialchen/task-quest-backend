@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 
 module.exports = {
-  Reward: require("./Reward"),
+<<<<<<<<< Temporary merge branch 1
+    Reward: require('./Reward'),
+    caregiverCtrl: require("./caregiverCtrl"),
+    childCtrl: require('./childCtrl')
+=========
+  Reward: require("./rewardCtrl"),
   caregiverCtrl: require("./caregiverCtrl"),
-  childCtrl: require("./childCtrl"),
+>>>>>>>>> Temporary merge branch 2
 };
 
 mongoose.connect(process.env.MONGODB_URL);
