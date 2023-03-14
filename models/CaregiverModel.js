@@ -1,15 +1,11 @@
 const mongoose = require("mongoose");
 
-const ObjectId = mongoose.Schema.Types.ObjectId;
+// const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const Caregiver = new mongoose.Schema({
-  firstName: {
+const CaregiverSchema = new mongoose.Schema({
+  caregiverName: {
     type: String,
     required: [true, "First Name is required"],
-  },
-  lastName: {
-    type: String,
-    required: [true, "Last Name is required"],
   },
   email: {
     type: String,
@@ -23,17 +19,11 @@ const Caregiver = new mongoose.Schema({
   token: {
     type: String,
   },
-  Children: {
-    type: [ObjectId],
-  },
-  Task: {
-    type: [ObjectId],
-  },
-  Reward: {
-    type: [ObjectId],
+  relationshipToChild: {
+    type: String,
   },
 });
 
-const CaregiverModel = mongoose.model("CaregiverModel", Caregiver);
+const Caregivers = mongoose.model("Caregivers", CaregiverSchema);
 
-module.exports = CaregiverModel;
+module.exports = Caregivers;
