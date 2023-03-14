@@ -82,6 +82,28 @@ const createChild = async (req, res) => {
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
+
+  // encrypt user password
+  const encryptedPassword = await bcrypt.hash(password, 10);
+
+  // create user in database
+  const child = await ChildModel.create({
+    childName,
+    caregiverId,
+    username: username.toLowerCase(),
+    password: encryptedPassword,
+  });
+
+  console.log(child);
+
+  res.status(201).json({
+    status: 201,
+    message: "child was created successfully",
+    child,
+  });
+} catch (err) {
+  res.status(404).json({ message: err.message });
+}
 };
 
 // const findCompletedTasks = async(req, res) => {
@@ -97,6 +119,5 @@ const childCtrl = {
     login,
     createChild,
     // findCompletedTasks
-};
-
+}
 module.exports = childCtrl;

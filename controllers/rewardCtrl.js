@@ -56,7 +56,6 @@ const assignToChild = async(req, res) => {
 
 }
 
-
 const rewardCtrl = {
     showAllRewards,
     createReward,
