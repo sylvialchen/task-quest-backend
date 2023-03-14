@@ -7,11 +7,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const methodOverride = require("method-override");
 const routes = require("./routes/index");
+
 // DATABASE CONNECTION
 mongoose.connect(MONGODB_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
+
 // Connection Events
 mongoose.connection
   .on("open", () => console.log("You are connected to mongoose"))
@@ -38,6 +40,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/caregiver", routes.caregiverRoutes);
+app.use("/child", routes.childRoutes);
+app.use("/rewards", routes.rewardsRoutes);
+app.use("/tasks", routes.tasksRoutes);
 
 // LISTENER
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));

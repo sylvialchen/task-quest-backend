@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const RewardSchema = new mongoose.Schema({
     caregiverId: {
-        type: [ObjectId],
+        type: ObjectId,
     },
     rewardName: {
         type: String, 

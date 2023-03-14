@@ -1,5 +1,6 @@
 /* Imports */
 const CaregiverModel = require("../models/CaregiverModel");
+const ChildModel = require("../models/ChildModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -9,10 +10,10 @@ const bcrypt = require("bcryptjs");
 const register = async (req, res) => {
   try {
     // get caregiver data
-    const { firstName, lastName, email, password } = req.body;
+    const { caregiverName, email, password } = req.body;
 
     // validate
-    if (!(firstName && lastName && email && password)) {
+    if (!(caregiverName && email && password)) {
       res.status(400).send("All inputs are required!");
     }
 
@@ -29,8 +30,7 @@ const register = async (req, res) => {
 
     // create user in database
     const caregiver = await CaregiverModel.create({
-      firstName,
-      lastName,
+      caregiverName,
       email: email.toLowerCase(),
       password: encryptedPassword,
     });
@@ -87,6 +87,16 @@ const login = async (req, res) => {
   }
 };
 
+
+
+const findChildren = async(req, res) => {
+  try {
+      res.json(await ChildModel.find({"caregiverId": req.params.caregiverId}))
+  } catch (err) {
+      res.status(400).json({error: "error"})
+      return next(err)
+  }
+}
 /* End of Controller Work */
 
 /* Export Out */
@@ -94,6 +104,7 @@ const login = async (req, res) => {
 const caregiverCtrl = {
   register,
   login,
+  findChildren,
 };
 
 module.exports = caregiverCtrl;

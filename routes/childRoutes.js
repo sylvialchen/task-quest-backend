@@ -8,12 +8,9 @@ const controllers = require("../controllers/index.js");
 
 /* Routes */
 
-// register route
-router.post("/register", controllers.caregiverCtrl.register);
 // login route
-router.post("/login", controllers.caregiverCtrl.login);
-// find children
-router.get("/:caregiverId", controllers.caregiverCtrl.findChildren);
+router.post("/login", controllers.childCtrl.login);
+router.post("/create", controllers.childCtrl.createChild);
 
 /*  */
 
