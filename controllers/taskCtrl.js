@@ -68,10 +68,17 @@ const dataController = {
   },
   async assignToChild(req, res, next) {
     try {
-      const foundChild = await Child.findByIdAndUpdate(req.params.taskId, { $push: { "tasksArray": req.params.childId } }, { new: true })
+      const foundChild = await Child.findByIdAndUpdate(req.params.childId, { $push: { "taskArray": req.params.taskId } }, { new: true })
       res.send(foundChild)
     } catch (error) {
       res.status(400).json(error)
+    }
+  },
+  async removeTaskFromChild(req, res) {
+    try {
+      
+    } catch (error) {
+      
     }
   }
 };
