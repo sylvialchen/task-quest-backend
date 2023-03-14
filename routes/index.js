@@ -1,9 +1,9 @@
 const caregiverRoutes = require("./caregiverRoutes");
-const reward = require("./reward")
+const childRoutes= require('./childRoutes')
 
 const router = {
   caregiverRoutes,
-  reward
+  childRoutes
 };
 
 module.exports = router;

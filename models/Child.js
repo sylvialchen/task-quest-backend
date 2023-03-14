@@ -14,14 +14,14 @@ const childSchema = new mongoose.Schema(
         firstName: {
             type: String,
             required: [true, "First Name is required"],
-          },
-          lastName: {
+        },
+        lastName: {
             type: String,
             required: [true, "Last Name is required"],
-          },
-          tasks: {
+        },
+        tasks: {
             type: Array
-          },
+        },
         rewards: {
             type: Array
         },
