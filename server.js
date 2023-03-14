@@ -37,7 +37,9 @@ app.get("/", (req, res) => {
   res.send(template);
 });
 
-app.use("/caregiver", routes.caregiverRoutes);
+const rewardCtrl = require('./controllers/rewardCtrl')
 
+app.use("/caregiver", routes.caregiverRoutes);
+app.use("/reward", rewardCtrl)
 // LISTENER
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
