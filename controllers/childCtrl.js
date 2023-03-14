@@ -2,7 +2,6 @@ const ChildModel = require("../models/ChildModel");
 const express = require(`express`)
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
 // Login
 const login = async (req, res) => {
   try {
@@ -91,10 +90,4 @@ const childCtrl = {
 };
 
 module.exports = childCtrl;
-
-
-
-
-
-
 

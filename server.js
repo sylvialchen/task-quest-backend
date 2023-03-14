@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const methodOverride = require("method-override");
 const routes = require("./routes/index");
-const rewardCtrl = require("./controllers/rewardCtrl")
 // DATABASE CONNECTION
 mongoose.connect(MONGODB_URL, {
   useUnifiedTopology: true,
@@ -39,9 +38,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/caregiver", routes.caregiverRoutes);
-app.use("/child", routes.childRoutes)
-app.use("/reward", routes.rewardsRoutes)
-app.use("/task", routes.tasksRoutes)
 
 // LISTENER
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
