@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -23,11 +23,17 @@ const Caregiver = new mongoose.Schema({
   token: {
     type: String,
   },
-  toDo: {
+  Children: {
+    type: [ObjectId],
+  },
+  Task: {
+    type: [ObjectId],
+  },
+  Reward: {
     type: [ObjectId],
   },
 });
 
 const CaregiverModel = mongoose.model("CaregiverModel", Caregiver);
 
-export default CaregiverModel;
+module.exports = CaregiverModel;
