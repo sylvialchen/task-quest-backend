@@ -73,6 +73,13 @@ const dataController = {
     } catch (error) {
       res.status(400).json(error)
     }
+  },
+  async removeTaskFromChild(req, res) {
+    try {
+      
+    } catch (error) {
+      
+    }
   }
 };
 
