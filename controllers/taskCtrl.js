@@ -90,11 +90,16 @@ const dataController = {
       res.status(400).json(error)
     }
   },
-  async removeTaskFromChild(req, res) {
+  async completeTask(req, res) {
     try {
-      
+      const completedTask = await Task.findByIdAndUpdate(req.params.taskId, { $set: { "completed": true } })
+      const points = completedTask.taskPoints
+      console.log(points)
+      const child = await Child.findByIdAndUpdate(req.params.childId, { "totalPoints": { $add: [totalPoints, points]}})
+      console.log(child.totalPoints)
+      res.status(200).json(completedTask)
     } catch (error) {
-      
+      res.status(400).json(error)
     }
   }
 };
