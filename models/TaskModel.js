@@ -4,9 +4,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const TaskSchema = new mongoose.Schema({
     caregiverId: {
-        type: [ObjectId],
+        type: ObjectId,
     },
     taskName: { 
+        type: String, 
+        required: true
+    },
+    taskDescription: { 
         type: String, 
         required: true
     },
