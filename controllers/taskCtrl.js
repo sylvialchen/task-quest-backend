@@ -93,7 +93,8 @@ const dataController = {
           $inc: { totalPoints: points },
         }
       );
-
+      console.log(child.totalPoints);
+      await child.save();
       res.status(200).json(child);
     } catch (error) {
       res.status(400).json(error);
