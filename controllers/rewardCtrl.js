@@ -47,14 +47,7 @@ const createReward = async(req, res) => {
 }
 const assignToChild = async(req, res) => {
     try {
-        const foundReward = await RewardModel.findById(req.params.childId)
-        const foundChild = await ChildModel.findByIdAndUpdate(req.params.rewardId, { $push: { "rewardsArray": req.params.childId } }, { new: true })
-        // if (!foundReward) {
-        //     res.send("Reward ID cannot be found");
-        // } 
-        // if (!foundChild) {
-        //     res.send("Child ID cannot be found");
-        // }
+        const foundChild = await ChildModel.findByIdAndUpdate(req.params.childId, { $push: { "rewardsArray": req.params.rewardId } }, { new: true })
         res.send(foundChild)
     } catch (err) {
         console.log(err)

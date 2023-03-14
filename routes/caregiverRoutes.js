@@ -12,6 +12,8 @@ const controllers = require("../controllers/index.js");
 router.post("/register", controllers.caregiverCtrl.register);
 // login route
 router.post("/login", controllers.caregiverCtrl.login);
+// find children
+router.get("/:caregiverId", controllers.caregiverCtrl.findChildren);
 
 /*  */
 
