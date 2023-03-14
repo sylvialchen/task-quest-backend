@@ -80,18 +80,18 @@ const apiController = {
         res.json(res.locals.data.task);
     }
 
-    await currentChild.save();
-    res.status(200).send({
-      data: currentChild,
-      message: "Expense has been added to the Month",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 500,
-      message: `${err.message}`,
-      requestAt: new Date().toLocaleString(),
-    });
-  }
+  //   try currentChild.save();
+  //   res.status(200).send({
+  //     data: currentChild,
+  //     message: "Expense has been added to the Month",
+  //   });
+  // } catch (error) {
+  //   return res.status(500).json({
+  //     status: 500,
+  //     message: `${err.message}`,
+  //     requestAt: new Date().toLocaleString(),
+  //   });
+  // }
 };
 
 const removeTaskFromChild = async (req, res) => {
@@ -130,7 +130,7 @@ const removeTaskFromChild = async (req, res) => {
 };
 
 const taskChild = {
-  addTaskToChild,
+  // addTaskToChild,
   removeTaskFromChild,
 };
 

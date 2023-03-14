@@ -48,10 +48,10 @@ const login = async (req, res) => {
 const createChild = async (req, res) => {
     try {
         // get child data
-        const { firstName, lastName, email, password } = req.body;
+        const { caregiverId, childName, email, password } = req.body;
 
         // validate
-        if (!(firstName && lastName && email && password)) {
+        if (!(caregiverId, childName && email && password)) {
             res.status(400).send("All inputs are required!");
         }
 
@@ -68,8 +68,8 @@ const createChild = async (req, res) => {
 
         // create user in database
         const child = await ChildModel.create({
-            firstName,
-            lastName,
+            caregiverId,
+            childName,
             email: email.toLowerCase(),
             password: encryptedPassword,
         });
