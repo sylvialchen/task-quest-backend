@@ -7,14 +7,8 @@ const dataController = {
   async index(req, res, next) {
     try {
       const tasks = await Task.find({});
-<<<<<<< Updated upstream
       console.log(tasks)
       res.status(200).json(tasks)
-=======
-      console.log(tasks);
-      res.locals.data.tasks = tasks;
-      next();
->>>>>>> Stashed changes
     } catch (error) {
       res.status(400).json(error);
     }
@@ -29,13 +23,8 @@ const dataController = {
   async indexComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: true });
-<<<<<<< Updated upstream
       console.log(tasks)
       res.status(200).json(tasks)
-=======
-      console.log(tasks);
-      res.locals.data.tasks = tasks;
->>>>>>> Stashed changes
       next();
     } catch (error) {
       res.status(400).json(error);
@@ -44,13 +33,8 @@ const dataController = {
   async indexNotComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: false });
-<<<<<<< Updated upstream
       console.log(tasks)
       res.status(200).json(tasks)
-=======
-      console.log(tasks);
-      res.locals.data.tasks = tasks;
->>>>>>> Stashed changes
       next();
     } catch (error) {
       res.status(400).json(error);
@@ -100,7 +84,6 @@ const dataController = {
 };
 
 const apiController = {
-<<<<<<< Updated upstream
     index (req, res, next) {
         // res.json(res.locals.data.tasks);
     },
@@ -121,14 +104,6 @@ const apiController = {
   //     requestAt: new Date().toLocaleString(),
   //   });
   // }
-=======
-  index(req, res, next) {
-    res.json(res.locals.data.tasks);
-  },
-  show(req, res, next) {
-    res.json(res.locals.data.task);
-  },
->>>>>>> Stashed changes
 };
 
 const removeTaskFromChild = async (req, res) => {
