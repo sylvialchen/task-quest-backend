@@ -1,7 +1,9 @@
-const caregiverCtrl = require("./caregiverCtrl");
+const mongoose = require ('mongoose')
 
-const controllers = {
-  caregiverCtrl,
+module.exports = {
+    Reward: require('./Reward'),
+    caregiverCtrl: require("./caregiverCtrl")
 };
 
-module.exports = controllers;
+mongoose.connect( process.env.MONGODB_URL);
+
