@@ -46,64 +46,42 @@ const login = async (req, res) => {
 
 // Create
 const createChild = async (req, res) => {
-    try {
-        // get child data
-        const { caregiverId, childName, username, password } = req.body;
+  try {
+    // get child data
+    const { caregiverId, childName, username, password } = req.body;
 
-        // validate
-        if (!(caregiverId, childName && username && password)) {
-            res.status(400).send("All inputs are required!");
-        }
+    // validate
+    if (!(caregiverId, childName && username && password)) {
+      res.status(400).send("All inputs are required!");
+    }
 
-        // check if child already exist
-        const existingChild = await ChildModel.findOne({ username });
-        if (existingChild) {
-            return res
-                .status(409)
-                .send("username account already exist. Try a new username account!");
-        }
+    // check if child already exist
+    const existingChild = await ChildModel.findOne({ username });
+    if (existingChild) {
+      return res
+        .status(409)
+        .send("username account already exist. Try a new username account!");
+    }
 
-        // encrypt user password
-        const encryptedPassword = await bcrypt.hash(password, 10);
+    // encrypt user password
+    const encryptedPassword = await bcrypt.hash(password, 10);
 
-        // create user in database
-        const child = await ChildModel.create({
-            caregiverId,
-            childName,
-            username: username.toLowerCase(),
-            password: encryptedPassword,
-        });
+    // create user in database
+    const child = await ChildModel.create({
+      caregiverId,
+      childName,
+      username: username.toLowerCase(),
+      password: encryptedPassword,
+    });
 
-        res.status(201).json({
-            status: 201,
-            message: "child was created successfully",
-            child,
-        });
+    res.status(201).json({
+      status: 201,
+      message: "child was created successfully",
+      child,
+    });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
-
-  // encrypt user password
-  const encryptedPassword = await bcrypt.hash(password, 10);
-
-  // create user in database
-  const child = await ChildModel.create({
-    childName,
-    caregiverId,
-    username: username.toLowerCase(),
-    password: encryptedPassword,
-  });
-
-  console.log(child);
-
-  res.status(201).json({
-    status: 201,
-    message: "child was created successfully",
-    child,
-  });
-} catch (err) {
-  res.status(404).json({ message: err.message });
-}
 };
 
 // const findCompletedTasks = async(req, res) => {
@@ -116,8 +94,8 @@ const createChild = async (req, res) => {
 // }
 
 const childCtrl = {
-    login,
-    createChild,
-    // findCompletedTasks
+  login,
+  createChild,
+  // findCompletedTasks
 }
 module.exports = childCtrl;
