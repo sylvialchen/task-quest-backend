@@ -1,23 +1,27 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {dataController, apiController} = require('../controllers/taskCtrl');
+const { dataController, apiController } = require("../controllers/taskCtrl");
 
 // Index
-router.get('/', dataController.index, apiController.index)
+router.get("/", dataController.index, apiController.index);
 // Index not completed
-router.get('/incompleted', dataController.indexNotComplete, apiController.index);
+router.get(
+  "/incompleted",
+  dataController.indexNotComplete,
+  apiController.index
+);
 // Index completed
-router.get('/completed', dataController.indexComplete, apiController.index);
+router.get("/completed", dataController.indexComplete, apiController.index);
 // Delete
-router.delete('/:id', dataController.destroy, apiController.show);
+router.delete("/:id", dataController.destroy, apiController.show);
 // Update
-router.put('/:id', dataController.update, apiController.show);
+router.put("/:id", dataController.update, apiController.show);
 // Create
-router.post('/', dataController.create, apiController.show);
-// Show 
-router.get(':/id', dataController.show, apiController.show);
-/* // Add Task for Child
-router.post()
+router.post("/", dataController.create, apiController.show);
+// Show
+router.get(":/id", dataController.show, apiController.show);
+// Add Task for Child
+router.put("/", dataController.create, apiController.addChild);
 // Remove Task for Child
-router.delete('/') */
+router.put("/", dataController.create, apiController.removeChild);
 module.exports = router;
