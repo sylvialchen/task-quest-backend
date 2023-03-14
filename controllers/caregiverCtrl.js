@@ -1,5 +1,5 @@
 /* Imports */
-const CaregiverModel = require("../models/caregiverModel");
+const CaregiverModel = require("../models/CaregiverModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -9,10 +9,10 @@ const bcrypt = require("bcryptjs");
 const register = async (req, res) => {
   try {
     // get caregiver data
-    const { firstName, lastName, email, password } = req.body;
+    const { caregiverName, email, password } = req.body;
 
     // validate
-    if (!(firstName && lastName && email && password)) {
+    if (!(caregiverName && email && password)) {
       res.status(400).send("All inputs are required!");
     }
 
@@ -29,8 +29,7 @@ const register = async (req, res) => {
 
     // create user in database
     const caregiver = await CaregiverModel.create({
-      firstName,
-      lastName,
+      caregiverName,
       email: email.toLowerCase(),
       password: encryptedPassword,
     });

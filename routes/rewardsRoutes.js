@@ -7,11 +7,11 @@ const router = express.Router();
 const controllers = require("../controllers/index.js");
 
 /* Routes */
+// show all rewards
+router.get("/rewards", controllers.rewardCtrl.showAllRewards)
+// create reward
+router.post("rewards", controllers.rewardCtrl.createReward)
 
-// login route
-router.post("/login", controllers.childCtrl.login);
-router.post("/create", controllers.childCtrl.createChild);
 
 /*  */
-
 module.exports = router;
