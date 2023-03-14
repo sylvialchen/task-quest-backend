@@ -7,5 +7,4 @@ module.exports = {
   taskCtrl: require("./taskCtrl"),
 };
 
-mongoose.connect( process.env.MONGODB_URL);
-
+mongoose.connect(process.env.MONGODB_URL);
