@@ -1,6 +1,6 @@
-const CaregiverModel = require("../models/caregiverModel");
-const Child = require("../models/Child");
-const Task = require("../models/task");
+const CaregiverModel = require("../models/CaregiverModel");
+const Child = require("../models/ChildModel");
+const Task = require("../models/TaskModel");
 
 const dataController = {
   async index(req, res, next) {
@@ -73,35 +73,11 @@ const dataController = {
 };
 
 const apiController = {
-  index(req, res, next) {
-    res.json(res.locals.data.tasks);
-  },
-  show(req, res, next) {
-    res.json(res.locals.data.task);
-  },
-};
-
-const addTaskToChild = async (req, res) => {
-  try {
-    // get the req body
-    const { taskId, childId } = req.body;
-
-    const caregiverId = req.caregiver._id;
-    // validate input
-    if (!(taskId && childId)) {
-      throw "inputError";
-    }
-
-    // get ID for user and month
-    const currentCaregiver = await CaregiverModel.findById(caregiverId);
-    const currentChild = await Child.findById(childId);
-    const currentTask = await Task.findById(taskId);
-
-    //find the index of the expense to add
-    const index = currentChild.childId.indexOf(taskId);
-    //add expense to the month
-    if (index == -1) {
-      currentChild.expenses.push(taskId);
+    index (req, res, next) {
+        res.json(res.locals.data.tasks);
+    },
+    show (req, res, next) {
+        res.json(res.locals.data.task);
     }
 
     await currentChild.save();
