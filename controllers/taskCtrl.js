@@ -7,14 +7,8 @@ const dataController = {
   async index(req, res, next) {
     try {
       const tasks = await Task.find({});
-<<<<<<< Updated upstream
-      console.log(tasks)
-      res.status(200).json(tasks)
-=======
       console.log(tasks);
-      res.locals.data.tasks = tasks;
-      next();
->>>>>>> Stashed changes
+      res.status(200).json(tasks);
     } catch (error) {
       res.status(400).json(error);
     }
@@ -24,18 +18,13 @@ const dataController = {
       const task = await Task.create(req.body);
       console.log(task);
       res.status(201).json(task);
-    } catch (error) { }
+    } catch (error) {}
   },
   async indexComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: true });
-<<<<<<< Updated upstream
-      console.log(tasks)
-      res.status(200).json(tasks)
-=======
       console.log(tasks);
-      res.locals.data.tasks = tasks;
->>>>>>> Stashed changes
+      res.status(200).json(tasks);
       next();
     } catch (error) {
       res.status(400).json(error);
@@ -44,13 +33,8 @@ const dataController = {
   async indexNotComplete(req, res, next) {
     try {
       const tasks = await Task.find({ completed: false });
-<<<<<<< Updated upstream
-      console.log(tasks)
-      res.status(200).json(tasks)
-=======
       console.log(tasks);
-      res.locals.data.tasks = tasks;
->>>>>>> Stashed changes
+      res.status(200).json(tasks);
       next();
     } catch (error) {
       res.status(400).json(error);
@@ -59,7 +43,7 @@ const dataController = {
   async show(req, res, next) {
     try {
       const task = await Task.findById(req.params.id);
-      res.status(200).json(task)
+      res.status(200).json(task);
     } catch (error) {
       res.status(400).json(error);
     }
@@ -69,7 +53,7 @@ const dataController = {
       const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       });
-      res.status(200).json(task)
+      res.status(200).json(task);
     } catch (error) {
       res.status(400).json(error);
     }
@@ -77,58 +61,36 @@ const dataController = {
   async destroy(req, res, next) {
     try {
       const task = await Task.findByIdAndDelete(req.params.id);
-      res.status(200).json(task)
+      res.status(200).json(task);
     } catch (error) {
       res.status(400).json(error);
     }
   },
   async assignToChild(req, res, next) {
     try {
-      const foundChild = await Child.findByIdAndUpdate(req.params.childId, { $push: { "taskArray": req.params.taskId } }, { new: true })
-      res.send(foundChild)
+      const foundChild = await Child.findByIdAndUpdate(
+        req.params.childId,
+        { $push: { taskArray: req.params.taskId } },
+        { new: true }
+      );
+      res.send(foundChild);
     } catch (error) {
-      res.status(400).json(error)
+      res.status(400).json(error);
     }
   },
   async removeTaskFromChild(req, res) {
     try {
-      
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  },
 };
 
 const apiController = {
-<<<<<<< Updated upstream
-    index (req, res, next) {
-        // res.json(res.locals.data.tasks);
-    },
-    show (req, res, next) {
-        // res.json(res.locals.data.task);
-    }
-
-
-  //   try currentChild.save();
-  //   res.status(200).send({
-  //     data: currentChild,
-  //     message: "Expense has been added to the Month",
-  //   });
-  // } catch (error) {
-  //   return res.status(500).json({
-  //     status: 500,
-  //     message: `${err.message}`,
-  //     requestAt: new Date().toLocaleString(),
-  //   });
-  // }
-=======
   index(req, res, next) {
     res.json(res.locals.data.tasks);
   },
   show(req, res, next) {
     res.json(res.locals.data.task);
   },
->>>>>>> Stashed changes
 };
 
 const removeTaskFromChild = async (req, res) => {
