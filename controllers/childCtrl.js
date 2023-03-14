@@ -1,5 +1,5 @@
 const ChildModel = require("../models/ChildModel");
-const express = require(`express`)
+const express = require(`express`);
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 // Login
@@ -22,7 +22,7 @@ const login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: "invalid password" });
 
     const payload = {
-      email: child.email,
+      username: child.username,
       id: child._id,
     };
     const token = jwt.sign(
@@ -46,21 +46,22 @@ const login = async (req, res) => {
 
 // Create
 const createChild = async (req, res) => {
+<<<<<<< Updated upstream
     try {
         // get child data
-        const { caregiverId, childName, email, password } = req.body;
+        const { caregiverId, childName, username, password } = req.body;
 
         // validate
-        if (!(caregiverId, childName && email && password)) {
+        if (!(caregiverId, childName && username && password)) {
             res.status(400).send("All inputs are required!");
         }
 
         // check if child already exist
-        const existingChild = await ChildModel.findOne({ email });
+        const existingChild = await ChildModel.findOne({ username });
         if (existingChild) {
             return res
                 .status(409)
-                .send("Email account already exist. Try a new email account!");
+                .send("username account already exist. Try a new username account!");
         }
 
         // encrypt user password
@@ -70,7 +71,7 @@ const createChild = async (req, res) => {
         const child = await ChildModel.create({
             caregiverId,
             childName,
-            email: email.toLowerCase(),
+            username: username.toLowerCase(),
             password: encryptedPassword,
         });
 
@@ -81,13 +82,66 @@ const createChild = async (req, res) => {
         });
     } catch (err) {
         res.status(404).json({ message: err.message });
+=======
+  try {
+    // get child data
+    const { caregiverId, childName, username, password } = req.body;
+
+    // validate
+    if (!(childName && username && password && caregiverId)) {
+      res.status(400).send("All inputs are required!");
     }
+
+    // check if child already exist
+    const existingChild = await ChildModel.findOne({ username });
+    if (existingChild) {
+      return res
+        .status(409)
+        .send("username account already exist. Try a new username account!");
+>>>>>>> Stashed changes
+    }
+
+    // encrypt user password
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
+    // create user in database
+    const child = await ChildModel.create({
+      childName,
+      caregiverId,
+      username: username.toLowerCase(),
+      password: encryptedPassword,
+    });
+
+    console.log(child);
+
+    res.status(201).json({
+      status: 201,
+      message: "child was created successfully",
+      child,
+    });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
+// const findCompletedTasks = async(req, res) => {
+//   try {
+//       res.json(await TaskModel.find({"caregiverId": req.params.caregiverId}))
+//   } catch (err) {
+//       res.status(400).json({error: "error"})
+//       return next(err)
+//   }
+// }
+
 const childCtrl = {
+<<<<<<< Updated upstream
     login,
     createChild,
+    // findCompletedTasks
+=======
+  login,
+  createChild,
+>>>>>>> Stashed changes
 };
 
 module.exports = childCtrl;
-
