@@ -1,13 +1,14 @@
 /* Imports */
 const CaregiverModel = require("../models/CaregiverModel");
 const ChildModel = require("../models/ChildModel");
+const TaskModel = require("../models/TaskModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 /* Controller Work */
 
 // register
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     // get caregiver data
     const { caregiverName, email, password } = req.body;
@@ -46,7 +47,7 @@ const register = async (req, res) => {
 };
 
 // login
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     // get caregiver input
     console.log(req.body);
@@ -88,7 +89,7 @@ const login = async (req, res) => {
   }
 };
 
-const findChildren = async (req, res) => {
+const findChildren = async (req, res, next) => {
   try {
     res.json(await ChildModel.find({ caregiverId: req.params.caregiverId }));
   } catch (err) {
@@ -98,7 +99,7 @@ const findChildren = async (req, res) => {
 
 };
 
-const findRewards = async (req, res) => {
+const findRewards = async (req, res, next) => {
   try {
     res.json(await RewardModel.find({ caregiverId: req.params.caregiverId }));
   } catch (err) {
@@ -107,7 +108,7 @@ const findRewards = async (req, res) => {
   }
 };
 
-const findTasks = async (req, res) => {
+const findTasks = async (req, res, next) => {
   try {
     res.json(await TaskModel.find({ caregiverId: req.params.caregiverId }));
   } catch (err) {
@@ -116,8 +117,6 @@ const findTasks = async (req, res) => {
   }
 };
 
-
-}
 
 /* End of Controller Work */
 
