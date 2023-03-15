@@ -51,6 +51,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     // get caregiver input
+    console.log(req.body);
     const { email, password } = req.body;
 
     // validate caregiver input
@@ -89,34 +90,32 @@ const login = async (req, res) => {
   }
 };
 
-
-
-const findChildren = async(req, res) => {
+const findChildren = async (req, res) => {
   try {
-      res.json(await ChildModel.find({"caregiverId": req.params.caregiverId}))
+    res.json(await ChildModel.find({ caregiverId: req.params.caregiverId }));
   } catch (err) {
-      res.status(400).json({error: "error"})
-      return next(err)
+    res.status(400).json({ error: "error" });
+    return next(err);
   }
-}
+};
 
-const findRewards = async(req, res) => {
+const findRewards = async (req, res) => {
   try {
-      res.json(await RewardModel.find({"caregiverId": req.params.caregiverId}))
+    res.json(await RewardModel.find({ caregiverId: req.params.caregiverId }));
   } catch (err) {
-      res.status(400).json({error: "error"})
-      return next(err)
+    res.status(400).json({ error: "error" });
+    return next(err);
   }
-}
+};
 
-const findTasks = async(req, res) => {
+const findTasks = async (req, res) => {
   try {
-      res.json(await TaskModel.find({"caregiverId": req.params.caregiverId}))
+    res.json(await TaskModel.find({ caregiverId: req.params.caregiverId }));
   } catch (err) {
-      res.status(400).json({error: "error"})
-      return next(err)
+    res.status(400).json({ error: "error" });
+    return next(err);
   }
-}
+};
 
 /* End of Controller Work */
 
@@ -127,7 +126,7 @@ const caregiverCtrl = {
   login,
   findChildren,
   findRewards,
-  findTasks
+  findTasks,
 };
 
 module.exports = caregiverCtrl;
