@@ -6,7 +6,7 @@ const { tasksRoutes } = require("../routes");
 const dataController = {
   async index(req, res, next) {
     try {
-      const tasks = await Task.find({});
+      const tasks = await Task.find({ caregiverId: req.params.caregiverId});
       console.log(tasks);
       res.status(200).json(tasks);
     } catch (error) {
@@ -22,7 +22,7 @@ const dataController = {
   },
   async indexComplete(req, res, next) {
     try {
-      const tasks = await Task.find({ completed: true });
+      const tasks = await Task.find({ caregiverId: req.params.caregiverId}, { completed: true });
       console.log(tasks);
       res.status(200).json(tasks);
       next();
@@ -32,7 +32,7 @@ const dataController = {
   },
   async indexNotComplete(req, res, next) {
     try {
-      const tasks = await Task.find({ completed: false });
+      const tasks = await Task.find({ caregiverId: req.params.caregiverId}, { completed: false });
       console.log(tasks);
       res.status(200).json(tasks);
       next();
