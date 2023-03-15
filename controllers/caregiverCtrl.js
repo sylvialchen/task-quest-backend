@@ -123,7 +123,6 @@ const caregiverCtrl = {
   register,
   login,
   findChildren,
-
   findRewards,
   findTasks,
 };
