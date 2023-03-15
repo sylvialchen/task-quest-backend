@@ -22,6 +22,7 @@ async function createTask(req, res, next) {
   }
 }
 
+
 // Get all completed tasks associated with a caregiver
 async function getCompletedTasksForCaregiver(req, res, next) {
   try {
@@ -32,6 +33,7 @@ async function getCompletedTasksForCaregiver(req, res, next) {
     res.status(400).json(error);
   }
 }
+
 
 // Get all incomplete tasks associated with a caregiver
 async function getIncompleteTasks(req, res, next) {

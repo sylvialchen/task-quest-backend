@@ -7,6 +7,7 @@ const controllers = require("../controllers/index.js");
 // Get all tasks associated with a caregiver
 router.get("/show/:caregiverId", controllers.taskCtrl.getAllTasksForCaregiver);
 // Index not completed
+
 router.get("/show/incomplete/:caregiverId", controllers.taskCtrl.getIncompleteTasks);
 // Get all completed tasks associated with a caregiver
 router.get("/show/complete/:caregiverId", controllers.taskCtrl.getCompletedTasksForCaregiver);
@@ -18,6 +19,7 @@ router.put("/:id", controllers.taskCtrl.updateTask);
 router.post("/", controllers.taskCtrl.createTask);
 // Get a task by ID
 router.get("/:id", controllers.taskCtrl.getTaskById);
+
 // Assing Task to Child
 router.post("/:taskId/:childId", controllers.taskCtrl.assignTaskToChild);
 // Remove Task for Child
