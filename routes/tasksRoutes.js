@@ -18,6 +18,7 @@ router.put("/:id", dataController.update);
 router.post("/", dataController.create);
 // Show
 router.get("/:id", dataController.show);
+router.get("/childtask/:childId", dataController.getTaskPerChild);
 // Assing Task to Child
 router.post("/:taskId/:childId", dataController.assignToChild);
 // Remove Task for Child

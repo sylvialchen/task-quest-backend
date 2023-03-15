@@ -54,7 +54,38 @@ const dataController = {
   },
   async show(req, res, next) {
     try {
-      res.json(await Task.findById(req.params.id));
+      // res.json(await Task.findById(req.params.id));
+      const incompletedTask = await Task.find({
+        _id: req.params.id,
+        completed: false,
+      });
+      const completedTask = await Task.find({
+        _id: req.params.id,
+        completed: true,
+      });
+
+      res.status(201).json({
+        status: 201,
+        incompletedTask,
+        completedTask,
+        message: "Successful reading all completed task",
+        requestAt: new Date().toLocaleString(),
+      });
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  },
+
+  async getTaskPerChild(req, res, next) {
+    try {
+      const child = await Child.findById(req.params.childId);
+      const childTask = child.taskArray;
+      res.status(201).json({
+        status: 201,
+        childTask,
+        message: "Successful showing all task per child",
+        requestAt: new Date().toLocaleString(),
+      });
     } catch (error) {
       res.status(400).json(error);
     }
