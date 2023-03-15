@@ -5,11 +5,11 @@ const router = express.Router();
 const { dataController, apiController } = require("../controllers/taskCtrl");
 
 // Index
-router.get("/", dataController.index);
+router.get("/:caregiverId/tasks", dataController.index);
 // Index not completed
-router.get("/incompleted", dataController.indexNotComplete);
+router.get("/:caregiverId/incompleted", dataController.indexNotComplete);
 // Index completed
-router.get("/completed", dataController.indexComplete);
+router.get("/:caregiverId/completed", dataController.indexComplete);
 // Delete
 router.delete("/:id", dataController.destroy);
 // Update
