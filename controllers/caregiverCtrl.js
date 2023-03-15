@@ -95,7 +95,6 @@ const findChildren = async (req, res) => {
     res.status(400).json({ error: "error" });
     return next(err);
   }
-
 };
 
 const findRewards = async (req, res) => {
@@ -116,9 +115,6 @@ const findTasks = async (req, res) => {
   }
 };
 
-
-
-
 /* End of Controller Work */
 
 /* Export Out */
@@ -130,7 +126,6 @@ const caregiverCtrl = {
 
   findRewards,
   findTasks,
-
 };
 
 module.exports = caregiverCtrl;
