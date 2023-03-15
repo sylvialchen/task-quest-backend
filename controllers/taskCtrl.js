@@ -27,6 +27,7 @@ const dataController = {
   },
   async indexNotComplete(req, res, next) {
     try {
+      console.log(req.params.caregiverId)
       res.json(await Task.find({ caregiverId: req.params.caregiverId}, {completed: false}));
     } catch (error) {
       res.status(400).json(error);
@@ -91,13 +92,4 @@ const dataController = {
   },
 };
 
-const apiController = {
-  index(req, res, next) {
-    // res.json(res.locals.data.tasks);
-  },
-  show(req, res, next) {
-    // res.json(res.locals.data.task);
-  },
-};
-
-module.exports = { dataController, apiController };
+module.exports = { dataController };
