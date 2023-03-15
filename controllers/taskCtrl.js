@@ -1,116 +1,132 @@
 const CaregiverModel = require("../models/CaregiverModel");
 const Child = require("../models/ChildModel");
 const Task = require("../models/TaskModel");
-const { tasksRoutes } = require("../routes");
 
-const dataController = {
-  async index(req, res, next) {
-    try {
-      res.json(await Task.find({ caregiverId: req.params.caregiverId }));
-    } catch {
-      res.status(400).json(error);
-    }
-  },
-  async create(req, res, next) {
-    try {
-      res.json(await Task.create(req.body));
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async indexComplete(req, res, next) {
-    try {
-      const completedTask = await Task.find({
-        caregiverId: req.params.caregiverId,
-        completed: true,
-      });
+// Get all tasks associated with a caregiver
+async function getAllTasksForCaregiver(req, res, next) {
+  try {
+    const tasks = await Task.find({ caregiverId: req.params.caregiverId });
+    res.json(tasks);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 
-      res.status(201).json({
-        status: 201,
-        completedTask,
-        message: "Successful reading all completed task",
-        requestAt: new Date().toLocaleString(),
-      });
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async indexNotComplete(req, res, next) {
-    try {
-      const incompletedTask = await Task.find({
-        caregiverId: req.params.caregiverId,
-        completed: false,
-      });
+// Create a new task
+async function createTask(req, res, next) {
+  try {
+    const task = await Task.create(req.body);
+    res.json(task);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 
-      res.status(201).json({
-        status: 201,
-        incompletedTask,
-        message: "Successful reading all completed task",
-        requestAt: new Date().toLocaleString(),
-      });
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async show(req, res, next) {
-    try {
-      res.json(await Task.findById(req.params.id));
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async update(req, res, next) {
-    try {
-      res.json(
-        await Task.findByIdAndUpdate(req.params.id, req.body, {
-          new: true,
-        })
-      );
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async destroy(req, res, next) {
-    try {
-      res.json(await Task.findByIdAndDelete(req.params.id));
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async assignToChild(req, res, next) {
-    try {
-      const foundChild = await Child.findByIdAndUpdate(
-        req.params.childId,
-        { $push: { taskArray: req.params.taskId } },
-        { new: true }
-      );
-      res.send(foundChild);
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async completeTask(req, res) {
-    try {
-      const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
-        $set: { completed: true },
-      });
+// Get all completed tasks associated with a caregiver
+async function getCompletedTasksForCaregiver(req, res, next) {
+  try {
+    const caregiverId = req.params.caregiverId;
+    const tasks = await Task.find({ caregiverId: caregiverId, completed: true });
+    res.json(tasks);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 
-      const points = completedTask.taskPoints;
-      console.log(points);
+// Get all incomplete tasks associated with a caregiver
+async function getIncompleteTasks(req, res, next) {
+  try {
+    const caregiverId = req.params.caregiverId;
+    const tasks = await Task.find({ caregiverId: caregiverId, completed: false });
+    res.json(tasks);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 
-      const child = await Child.findByIdAndUpdate(
-        { _id: req.params.childId },
-        {
-          $inc: { totalPoints: points },
-        }
-      );
-      console.log(child.totalPoints);
-      await child.save();
-      res.status(200).json(child);
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
+// Get a task by ID
+async function getTaskById(req, res, next) {
+  try {
+    const task = await Task.findById(req.params.id);
+    res.json(task);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Update a task by ID
+async function updateTask(req, res, next) {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json(updatedTask);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Delete a task by ID
+async function deleteTask(req, res, next) {
+  try {
+    const deletedTask = await Task.findByIdAndDelete(req.params.id);
+    res.json(deletedTask);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Assign a task to a child
+async function assignTaskToChild(req, res, next) {
+  try {
+    const updatedChild = await Child.findByIdAndUpdate(
+      req.params.childId,
+      { $push: { taskArray: req.params.taskId } },
+      { new: true }
+    );
+    res.send(updatedChild);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Mark a task as completed and award points to a child
+async function completeTask(req, res) {
+  try {
+    const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
+      $set: { completed: true },
+    });
+
+    const points = completedTask.taskPoints;
+    console.log(points);
+
+    const child = await Child.findByIdAndUpdate(
+      { _id: req.params.childId },
+      {
+        $inc: { totalPoints: points },
+      }
+    );
+    console.log(child.totalPoints);
+    await child.save();
+    res.status(200).json(child);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+
 };
 
-module.exports = { dataController };
+const taskCtrl = {
+  getAllTasksForCaregiver,
+  createTask,
+  getTaskById,
+  updateTask,
+  deleteTask,
+  assignTaskToChild,
+  completeTask,
+  getCompletedTasksForCaregiver,
+  getIncompleteTasks
+};
+
+module.exports = taskCtrl;
