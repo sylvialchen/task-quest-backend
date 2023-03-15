@@ -84,18 +84,8 @@ const createChild = async (req, res) => {
   }
 };
 
-// const findCompletedTasks = async(req, res) => {
-//   try {
-//       res.json(await TaskModel.find({"caregiverId": req.params.caregiverId}))
-//   } catch (err) {
-//       res.status(400).json({error: "error"})
-//       return next(err)
-//   }
-// }
-
 const childCtrl = {
   login,
   createChild,
-  // findCompletedTasks
 }
 module.exports = childCtrl;
