@@ -22,24 +22,28 @@ async function createTask(req, res, next) {
   }
 }
 
-
 // Get all completed tasks associated with a caregiver
 async function getCompletedTasksForCaregiver(req, res, next) {
   try {
     const caregiverId = req.params.caregiverId;
-    const tasks = await Task.find({ caregiverId: caregiverId, completed: true });
+    const tasks = await Task.find({
+      caregiverId: caregiverId,
+      completed: true,
+    });
     res.json(tasks);
   } catch (error) {
     res.status(400).json(error);
   }
 }
 
-
 // Get all incomplete tasks associated with a caregiver
 async function getIncompleteTasks(req, res, next) {
   try {
     const caregiverId = req.params.caregiverId;
-    const tasks = await Task.find({ caregiverId: caregiverId, completed: false });
+    const tasks = await Task.find({
+      caregiverId: caregiverId,
+      completed: false,
+    });
     res.json(tasks);
   } catch (error) {
     res.status(400).json(error);
@@ -49,8 +53,23 @@ async function getIncompleteTasks(req, res, next) {
 // Get a task by ID
 async function getTaskById(req, res, next) {
   try {
-    const task = await Task.findById(req.params.id);
-    res.json(task);
+    // res.json(await Task.findById(req.params.id));
+    const incompletedTask = await Task.find({
+      _id: req.params.id,
+      completed: false,
+    });
+    const completedTask = await Task.find({
+      _id: req.params.id,
+      completed: true,
+    });
+
+    res.status(201).json({
+      status: 201,
+      incompletedTask,
+      completedTask,
+      message: "Successful reading all completed task",
+      requestAt: new Date().toLocaleString(),
+    });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -59,11 +78,9 @@ async function getTaskById(req, res, next) {
 // Update a task by ID
 async function updateTask(req, res, next) {
   try {
-    const updatedTask = await Task.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json(updatedTask);
   } catch (error) {
     res.status(400).json(error);
@@ -116,8 +133,7 @@ async function completeTask(req, res) {
   } catch (error) {
     res.status(400).json(error);
   }
-
-};
+}
 
 const taskCtrl = {
   getAllTasksForCaregiver,
@@ -128,7 +144,7 @@ const taskCtrl = {
   assignTaskToChild,
   completeTask,
   getCompletedTasksForCaregiver,
-  getIncompleteTasks
+  getIncompleteTasks,
 };
 
 module.exports = taskCtrl;
