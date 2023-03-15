@@ -6,29 +6,48 @@ const { tasksRoutes } = require("../routes");
 const dataController = {
   async index(req, res, next) {
     try {
-      res.json(await Task.find({ caregiverId: req.params.caregiverId }));      
+      res.json(await Task.find({ caregiverId: req.params.caregiverId }));
     } catch {
       res.status(400).json(error);
     }
   },
   async create(req, res, next) {
     try {
-    res.json(await Task.create(req.body));
+      res.json(await Task.create(req.body));
     } catch (error) {
-      res.status(400).json(error)
+      res.status(400).json(error);
     }
   },
   async indexComplete(req, res, next) {
     try {
-      res.json(await Task.find({ caregiverId: req.params.caregiverId}, {completed: true}));
+      const completedTask = await Task.find({
+        caregiverId: req.params.caregiverId,
+        completed: true,
+      });
+
+      res.status(201).json({
+        status: 201,
+        completedTask,
+        message: "Successful reading all completed task",
+        requestAt: new Date().toLocaleString(),
+      });
     } catch (error) {
       res.status(400).json(error);
     }
   },
   async indexNotComplete(req, res, next) {
     try {
-      console.log(req.params.caregiverId)
-      res.json(await Task.find({ caregiverId: req.params.caregiverId}, {completed: false}));
+      const incompletedTask = await Task.find({
+        caregiverId: req.params.caregiverId,
+        completed: false,
+      });
+
+      res.status(201).json({
+        status: 201,
+        incompletedTask,
+        message: "Successful reading all completed task",
+        requestAt: new Date().toLocaleString(),
+      });
     } catch (error) {
       res.status(400).json(error);
     }
@@ -42,9 +61,11 @@ const dataController = {
   },
   async update(req, res, next) {
     try {
-      res.json(await Task.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      }));
+      res.json(
+        await Task.findByIdAndUpdate(req.params.id, req.body, {
+          new: true,
+        })
+      );
     } catch (error) {
       res.status(400).json(error);
     }
