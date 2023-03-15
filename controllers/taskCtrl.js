@@ -6,62 +6,51 @@ const { tasksRoutes } = require("../routes");
 const dataController = {
   async index(req, res, next) {
     try {
-      const tasks = await Task.find({ caregiverId: req.params.caregiverId});
-      console.log(tasks);
-      res.status(200).json(tasks);
-    } catch (error) {
+      res.json(await Task.find({ caregiverId: req.params.caregiverId }));      
+    } catch {
       res.status(400).json(error);
     }
   },
   async create(req, res, next) {
     try {
-      const task = await Task.create(req.body);
-      console.log(task);
-      res.status(201).json(task);
-    } catch (error) {}
+    res.json(await Task.create(req.body));
+    } catch (error) {
+      res.status(400).json(error)
+    }
   },
   async indexComplete(req, res, next) {
     try {
-      const tasks = await Task.find({ caregiverId: req.params.caregiverId}, { completed: true });
-      console.log(tasks);
-      res.status(200).json(tasks);
-      next();
+      res.json(await Task.find({ caregiverId: req.params.caregiverId}, {completed: true}));
     } catch (error) {
       res.status(400).json(error);
     }
   },
   async indexNotComplete(req, res, next) {
     try {
-      const tasks = await Task.find({ caregiverId: req.params.caregiverId}, { completed: false });
-      console.log(tasks);
-      res.status(200).json(tasks);
-      next();
+      res.json(await Task.find({ caregiverId: req.params.caregiverId}, {completed: false}));
     } catch (error) {
       res.status(400).json(error);
     }
   },
   async show(req, res, next) {
     try {
-      const task = await Task.findById(req.params.id);
-      res.status(200).json(task);
+      res.json(await Task.findById(req.params.id));
     } catch (error) {
       res.status(400).json(error);
     }
   },
   async update(req, res, next) {
     try {
-      const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      res.json(await Task.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-      });
-      res.status(200).json(task);
+      }));
     } catch (error) {
       res.status(400).json(error);
     }
   },
   async destroy(req, res, next) {
     try {
-      const task = await Task.findByIdAndDelete(req.params.id);
-      res.status(200).json(task);
+      res.json(await Task.findByIdAndDelete(req.params.id));
     } catch (error) {
       res.status(400).json(error);
     }
