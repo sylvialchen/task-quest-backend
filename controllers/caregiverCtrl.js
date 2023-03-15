@@ -1,8 +1,6 @@
 /* Imports */
 const CaregiverModel = require("../models/CaregiverModel");
 const ChildModel = require("../models/ChildModel");
-const RewardModel = require("../models/RewardModel");
-const TaskModel = require("../models/TaskModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -97,6 +95,7 @@ const findChildren = async (req, res) => {
     res.status(400).json({ error: "error" });
     return next(err);
   }
+
 };
 
 const findRewards = async (req, res) => {
@@ -117,6 +116,9 @@ const findTasks = async (req, res) => {
   }
 };
 
+
+}
+
 /* End of Controller Work */
 
 /* Export Out */
@@ -125,8 +127,10 @@ const caregiverCtrl = {
   register,
   login,
   findChildren,
+
   findRewards,
   findTasks,
+
 };
 
 module.exports = caregiverCtrl;
