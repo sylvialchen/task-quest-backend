@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extend: true }));
 app.use(express.static("public"));
 
 // Routes / Controllers
-const rewardCtrl = require('./controllers/rewardCtrl') 
+
 /* Test Route */
 app.get("/", (req, res) => {
   const template = `
