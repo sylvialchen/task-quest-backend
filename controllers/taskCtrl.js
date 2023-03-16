@@ -114,7 +114,7 @@ async function assignTaskToChild(req, res, next) {
 // Mark a task as completed and award points to a child
 async function completeTask(req, res) {
   try {
-    console.log(`route hit`);
+    /* console.log(`route hit`);
     const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
       $set: { completed: true },
     });
@@ -128,6 +128,39 @@ async function completeTask(req, res) {
         $inc: { totalPoints: points },
       }
     );
+    console.log(child.totalPoints);
+    await child.save();
+    res.status(200).json(child); */
+    console.log(`route hit`);
+    const taskId = req.params.taskId;
+    const childId = req.params.childId;
+
+    const completedTask = await Task.findByIdAndUpdate(taskId, {
+      $set: { completed: true },
+    });
+
+    if (!completedTask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    if (completedTask.completed) {
+      return res.status(400).json({ message: "Task already completed" });
+    }
+
+    const points = completedTask.taskPoints;
+    console.log(points);
+
+    const child = await Child.findByIdAndUpdate(
+      { _id: childId },
+      {
+        $inc: { totalPoints: points },
+      }
+    );
+
+    if (!child) {
+      return res.status(404).json({ message: "Child not found" });
+    }
+
     console.log(child.totalPoints);
     await child.save();
     res.status(200).json(child);
