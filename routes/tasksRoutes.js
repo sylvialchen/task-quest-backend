@@ -23,7 +23,12 @@ router.delete("/:id", controllers.taskCtrl.deleteTask);
 router.put("/:id", controllers.taskCtrl.updateTask);
 // Create a new task
 router.post("/", controllers.taskCtrl.createTask);
-// Get a task by ID
+// Get a completed and incomplete by ID
+router.get(
+  "/incompleteandcomplete/:id",
+  controllers.taskCtrl.getCompletedAndIncompletedTaskByID
+);
+// get task by ID
 router.get("/:id", controllers.taskCtrl.getTaskById);
 // Assing Task to Child
 router.post("/:taskId/:childId", controllers.taskCtrl.assignTaskToChild);

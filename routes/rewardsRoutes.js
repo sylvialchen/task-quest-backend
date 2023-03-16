@@ -23,7 +23,7 @@ router.post("/create", controllers.rewardCtrl.createReward);
 router.post("/:rewardId/:childId", controllers.rewardCtrl.assignToChild);
 router.put(
     "/cashin/:rewardId/:childId",
-    verifyToken,
+    //verifyToken,
     controllers.rewardCtrl.rewardCashedIn
 );
 

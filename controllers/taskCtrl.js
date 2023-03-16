@@ -51,7 +51,7 @@ async function getIncompleteTasks(req, res, next) {
 }
 
 // Get a task by ID
-async function getTaskById(req, res, next) {
+async function getCompletedAndIncompletedTaskByID(req, res, next) {
   try {
     // res.json(await Task.findById(req.params.id));
     const incompletedTask = await Task.find({
@@ -114,6 +114,7 @@ async function assignTaskToChild(req, res, next) {
 // Mark a task as completed and award points to a child
 async function completeTask(req, res) {
   try {
+    console.log(`route hit`);
     const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
       $set: { completed: true },
     });
@@ -135,10 +136,21 @@ async function completeTask(req, res) {
   }
 }
 
+// get task by ID
+async function getTaskById(req, res, next) {
+  try {
+    const task = await Task.findById(req.params.id);
+    res.json(task);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
 const taskCtrl = {
   getAllTasksForCaregiver,
   createTask,
   getTaskById,
+  getCompletedAndIncompletedTaskByID,
   updateTask,
   deleteTask,
   assignTaskToChild,
