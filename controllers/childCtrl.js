@@ -84,8 +84,18 @@ const createChild = async (req, res) => {
   }
 };
 
+const getChildById = async (req, res, next) => {
+  try {
+    const foundChild = await ChildModel.findById(req.params.id);
+    res.json(foundChild);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
 const childCtrl = {
   login,
   createChild,
+  getChildById
 }
 module.exports = childCtrl;
