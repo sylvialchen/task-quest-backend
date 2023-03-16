@@ -68,9 +68,8 @@ const rewardCashedIn = async (req, res, next) => {
         } else {
 
         const updateChild = await ChildModel.findByIdAndUpdate(req.params.childId, {
-            totalPoints: newTotalPoints,
+            $inc: { totalPoints: -points},
         });
-        console.log(child.totalPoints);
 
         return res.status(200).json({
             status: 200,
