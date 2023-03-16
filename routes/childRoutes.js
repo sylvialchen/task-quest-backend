@@ -12,8 +12,8 @@ const controllers = require("../controllers/index.js");
 router.post("/login", controllers.childCtrl.login);
 // create child
 router.post("/create", verifyToken, controllers.childCtrl.createChild);
-// // show completed tasks
-// router.get("tasks/completed", controllers.childCtrl.findCompletedTasks)
+// show childs data
+router.get("/:childId", controllers.childCtrl.getChildById)
 // // show pending tasks
 // router.get("tasks/pendingtoday")
 // // show cashed rewards
