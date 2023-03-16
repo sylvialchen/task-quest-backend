@@ -65,7 +65,7 @@ const rewardCashedIn = async (req, res, next) => {
         if (newTotalPoints < 0) {
             newTotalPoints = child.totalPoints;
             res.status(400).send("Not enough points");
-        }
+        } else {
 
         const updateChild = await ChildModel.findByIdAndUpdate(req.params.childId, {
             totalPoints: newTotalPoints,
@@ -75,9 +75,10 @@ const rewardCashedIn = async (req, res, next) => {
         return res.status(200).json({
             status: 200,
             updateChild,
-            message: "Success rward cashed in",
+            message: "Success reward cashed in",
             requestAt: new Date().toLocaleString(),
         });
+    }
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
