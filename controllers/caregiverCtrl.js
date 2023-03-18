@@ -36,6 +36,22 @@ const register = async (req, res, next) => {
       password: encryptedPassword,
     });
 
+    const payload = {
+      email: caregiver.email,
+      id: caregiver._id,
+    };
+    const token = jwt.sign(
+      payload,
+      process.env.TOKEN_KEY,
+
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    //save caregiver token
+    caregiver.token = token;
+
     res.status(201).json({
       status: 201,
       message: "caregiver was created successfully",
