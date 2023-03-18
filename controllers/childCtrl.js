@@ -72,6 +72,7 @@ const createChild = async (req, res) => {
       childName,
       username: username.toLowerCase(),
       password: encryptedPassword,
+      totalPoints: 0,
     });
 
     res.status(201).json({
@@ -85,18 +86,18 @@ const createChild = async (req, res) => {
 };
 
 // get child by id
-const getChildById = async (req, res) =>{
+const getChildById = async (req, res) => {
   try {
     const child = await ChildModel.findById(req.params.childId);
     res.json(child);
   } catch (error) {
     res.status(400).json(error);
   }
-}
+};
 
 const childCtrl = {
   login,
   createChild,
-  getChildById
-}
+  getChildById,
+};
 module.exports = childCtrl;
