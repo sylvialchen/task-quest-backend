@@ -1,154 +1,195 @@
 const CaregiverModel = require("../models/CaregiverModel");
 const Child = require("../models/ChildModel");
 const Task = require("../models/TaskModel");
-const { tasksRoutes } = require("../routes");
 
-const dataController = {
-  async index(req, res, next) {
-    try {
-      const tasks = await Task.find({});
-      console.log(tasks)
-      res.status(200).json(tasks)
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async create(req, res, next) {
-    try {
-      const task = await Task.create(req.body);
-      console.log(task);
-      res.status(201).json(task);
-    } catch (error) { }
-  },
-  async indexComplete(req, res, next) {
-    try {
-      const tasks = await Task.find({ completed: true });
-      console.log(tasks)
-      res.status(200).json(tasks)
-      next();
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async indexNotComplete(req, res, next) {
-    try {
-      const tasks = await Task.find({ completed: false });
-      console.log(tasks)
-      res.status(200).json(tasks)
-      next();
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async show(req, res, next) {
-    try {
-      const task = await Task.findById(req.params.id);
-      res.status(200).json(task)
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async update(req, res, next) {
-    try {
-      const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      });
-      res.status(200).json(task)
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async destroy(req, res, next) {
-    try {
-      const task = await Task.findByIdAndDelete(req.params.id);
-      res.status(200).json(task)
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async assignToChild(req, res, next) {
-    try {
-      const foundChild = await Child.findByIdAndUpdate(req.params.childId, { $push: { "taskArray": req.params.taskId } }, { new: true })
-      res.send(foundChild)
-    } catch (error) {
-      res.status(400).json(error)
-    }
-  },
-  async completeTask(req, res) {
-    try {
-      const completedTask = await Task.findByIdAndUpdate(req.params.taskId, { $set: { "completed": true } })
-      const points = completedTask.taskPoints
-      console.log(points)
-      const child = await Child.findByIdAndUpdate(req.params.childId, { "totalPoints": { $add: [totalPoints, points]}})
-      console.log(child.totalPoints)
-      res.status(200).json(completedTask)
-    } catch (error) {
-      res.status(400).json(error)
-    }
-  }
-};
-
-const apiController = {
-    index (req, res, next) {
-        // res.json(res.locals.data.tasks);
-    },
-    show (req, res, next) {
-        // res.json(res.locals.data.task);
-    }
-
-
-  //   try currentChild.save();
-  //   res.status(200).send({
-  //     data: currentChild,
-  //     message: "Expense has been added to the Month",
-  //   });
-  // } catch (error) {
-  //   return res.status(500).json({
-  //     status: 500,
-  //     message: `${err.message}`,
-  //     requestAt: new Date().toLocaleString(),
-  //   });
-  // }
-};
-
-const removeTaskFromChild = async (req, res) => {
+// Get all tasks associated with a caregiver
+async function getAllTasksForCaregiver(req, res, next) {
   try {
-    // get the req body
-    const { taskId, childId } = req.body;
-
-    const caregiverId = req.caregiver._id;
-    // validate input
-    if (!(taskId && childId)) {
-      throw "inputError";
-    }
-
-    // get ID for user and month
-    const currentCaregiver = await CaregiverModel.findById(caregiverId);
-    const currentChild = await Child.findById(childId);
-    const currentTask = await Task.findById(taskId);
-
-    //find the index of the expense to add
-    const index = currentChild.childId.indexOf(taskId);
-    //add expense to the month
-    currentChild.childId.splice(index, 1);
-
-    await currentChild.save();
-    res.status(200).send({
-      data: currentChild,
-      message: "Expense has been added to the Month",
-    });
+    const tasks = await Task.find({ caregiverId: req.params.caregiverId });
+    res.json(tasks);
   } catch (error) {
-    return res.status(500).json({
-      status: 500,
-      message: `${err.message}`,
+    res.status(400).json(error);
+  }
+}
+
+// Create a new task
+async function createTask(req, res, next) {
+  try {
+    const task = await Task.create(req.body);
+    res.json(task);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Get all completed tasks associated with a caregiver
+async function getCompletedTasksForCaregiver(req, res, next) {
+  try {
+    const caregiverId = req.params.caregiverId;
+    const tasks = await Task.find({
+      caregiverId: caregiverId,
+      completed: true,
+    });
+    res.json(tasks);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Get all incomplete tasks associated with a caregiver
+async function getIncompleteTasks(req, res, next) {
+  try {
+    const caregiverId = req.params.caregiverId;
+    const tasks = await Task.find({
+      caregiverId: caregiverId,
+      completed: false,
+    });
+    res.json(tasks);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Get a task by ID
+async function getCompletedAndIncompletedTaskByID(req, res, next) {
+  try {
+    // res.json(await Task.findById(req.params.id));
+    const incompletedTask = await Task.find({
+      _id: req.params.id,
+      completed: false,
+    });
+    const completedTask = await Task.find({
+      _id: req.params.id,
+      completed: true,
+    });
+
+    res.status(201).json({
+      status: 201,
+      incompletedTask,
+      completedTask,
+      message: "Successful reading all completed task",
       requestAt: new Date().toLocaleString(),
     });
+  } catch (error) {
+    res.status(400).json(error);
   }
+}
+
+// Update a task by ID
+async function updateTask(req, res, next) {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.json(updatedTask);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Delete a task by ID
+async function deleteTask(req, res, next) {
+  try {
+    const deletedTask = await Task.findByIdAndDelete(req.params.id);
+    res.json(deletedTask);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Assign a task to a child
+async function assignTaskToChild(req, res, next) {
+  try {
+    const updatedChild = await Child.findByIdAndUpdate(
+      req.params.childId,
+      { $push: { taskArray: req.params.taskId } },
+      { new: true }
+    );
+    res.send(updatedChild);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// Mark a task as completed and award points to a child
+async function completeTask(req, res) {
+  try {
+    /* console.log(`route hit`);
+    const completedTask = await Task.findByIdAndUpdate(req.params.taskId, {
+      $set: { completed: true },
+    });
+
+    const points = completedTask.taskPoints;
+    console.log(points);
+
+    const child = await Child.findByIdAndUpdate(
+      { _id: req.params.childId },
+      {
+        $inc: { totalPoints: points },
+      }
+    );
+    console.log(child.totalPoints);
+    await child.save();
+    res.status(200).json(child); */
+    console.log(`route hit`);
+    const taskId = req.params.taskId;
+    const childId = req.params.childId;
+
+    const completedTask = await Task.findByIdAndUpdate(taskId, {
+      $set: { completed: true },
+    });
+
+    if (!completedTask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    if (completedTask.completed) {
+      return res.status(400).json({ message: "Task already completed" });
+    }
+
+    const points = completedTask.taskPoints;
+    console.log(points);
+
+    const child = await Child.findByIdAndUpdate(
+      { _id: childId },
+      {
+        $inc: { totalPoints: points },
+      }
+    );
+
+    if (!child) {
+      return res.status(404).json({ message: "Child not found" });
+    }
+
+    console.log(child.totalPoints);
+    await child.save();
+    res.status(200).json(child);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+// get task by ID
+async function getTaskById(req, res, next) {
+  try {
+    const task = await Task.findById(req.params.id);
+    res.json(task);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+const taskCtrl = {
+  getAllTasksForCaregiver,
+  createTask,
+  getTaskById,
+  getCompletedAndIncompletedTaskByID,
+  updateTask,
+  deleteTask,
+  assignTaskToChild,
+  completeTask,
+  getCompletedTasksForCaregiver,
+  getIncompleteTasks,
 };
 
-const taskChild = {
-  // addTaskToChild,
-  removeTaskFromChild,
-};
-
-module.exports = { dataController, apiController };
+module.exports = taskCtrl;

@@ -1,5 +1,5 @@
 const ChildModel = require("../models/ChildModel");
-const express = require(`express`)
+const express = require(`express`);
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 // Login
@@ -22,7 +22,7 @@ const login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: "invalid password" });
 
     const payload = {
-      email: child.email,
+      username: child.username,
       id: child._id,
     };
     const token = jwt.sign(
@@ -46,48 +46,58 @@ const login = async (req, res) => {
 
 // Create
 const createChild = async (req, res) => {
-    try {
-        // get child data
-        const { caregiverId, childName, email, password } = req.body;
+  try {
+    // get child data
+    const { caregiverId, childName, username, password } = req.body;
 
-        // validate
-        if (!(caregiverId, childName && email && password)) {
-            res.status(400).send("All inputs are required!");
-        }
-
-        // check if child already exist
-        const existingChild = await ChildModel.findOne({ email });
-        if (existingChild) {
-            return res
-                .status(409)
-                .send("Email account already exist. Try a new email account!");
-        }
-
-        // encrypt user password
-        const encryptedPassword = await bcrypt.hash(password, 10);
-
-        // create user in database
-        const child = await ChildModel.create({
-            caregiverId,
-            childName,
-            email: email.toLowerCase(),
-            password: encryptedPassword,
-        });
-
-        res.status(201).json({
-            status: 201,
-            message: "child was created successfully",
-            child,
-        });
-    } catch (err) {
-        res.status(404).json({ message: err.message });
+    // validate
+    if (!(caregiverId, childName && username && password)) {
+      res.status(400).send("All inputs are required!");
     }
+
+    // check if child already exist
+    const existingChild = await ChildModel.findOne({ username });
+    if (existingChild) {
+      return res
+        .status(409)
+        .send("username account already exist. Try a new username account!");
+    }
+
+    // encrypt user password
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
+    // create user in database
+    const child = await ChildModel.create({
+      caregiverId,
+      childName,
+      username: username.toLowerCase(),
+      password: encryptedPassword,
+      totalPoints: 0,
+    });
+
+    res.status(201).json({
+      status: 201,
+      message: "child was created successfully",
+      child,
+    });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+// get child by id
+const getChildById = async (req, res) => {
+  try {
+    const child = await ChildModel.findById(req.params.childId);
+    res.json(child);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };
 
 const childCtrl = {
-    login,
-    createChild,
+  login,
+  createChild,
+  getChildById,
 };
-
 module.exports = childCtrl;
-
