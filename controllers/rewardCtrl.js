@@ -85,7 +85,7 @@ const rewardCashedIn = async (req, res, next) => {
 
 const updateReward = async (req, res, next) => {
     try {
-        const updatedReward = await Reward.findByIdAndUpdate(
+        const updatedReward = await RewardModel.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
@@ -98,7 +98,7 @@ const updateReward = async (req, res, next) => {
 
 const deleteReward = async (req, res, next) => {
     try {
-        const deletedReward = await Reward.findByIdAndDelete(req.params.id);
+        const deletedReward = await RewardModel.findByIdAndDelete(req.params.id);
         res.json(deletedReward);
     } catch (error) {
         res.status(400).json(error);
