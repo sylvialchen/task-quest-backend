@@ -1,6 +1,6 @@
 // DEPENDENCIES
 require("dotenv").config();
-const { PORT = 4000, MONGODB_URL } = process.env;
+const { PORT, MONGODB_URL } = process.env;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -45,4 +45,4 @@ app.use("/rewards", routes.rewardsRoutes);
 app.use("/tasks", routes.tasksRoutes);
 
 // LISTENER
-app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
+app.listen(process.env.PORT || 4000, () => console.log(`listening on PORT ${PORT}`));
